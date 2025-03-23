@@ -14,6 +14,10 @@ import { RoutesPathName } from './constants';
 
 const router = createBrowserRouter([
   {
+    path: '/',
+    element: <LandingPage />,  // Landing Page should be first
+  },
+  {
     path: RoutesPathName.SIGNUP_PAGE,
     element: <Register />,
   },
@@ -28,9 +32,7 @@ const router = createBrowserRouter([
   {
     path: RoutesPathName.User_Info,
     element: <User_Info />,
-  },
-
-
+  }, 
   // {
   //   path: RoutesPathName.DASHBOARD_PAGE,
   //   element: (
