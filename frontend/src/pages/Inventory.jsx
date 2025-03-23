@@ -5,15 +5,8 @@ import * as XLSX from 'xlsx';
 import axios from 'axios';
 import './Inventory.css';
 
-const API_BASE_URL = 'inventory/api';
-
 function Inventory() {
   const [inventory, setInventory] = useState([]);
-  const [stats, setStats] = useState({
-    totalItems: 0,
-    lowStock: 0,
-    outOfStock: 0
-  });
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
@@ -23,18 +16,16 @@ function Inventory() {
     quantity: 0,
     gst : 0,
     price: 0,
-    category: '',
     status: 'In Stock'
   });
 
   useEffect(() => {
     fetchInventory();
-    fetchStats();
   }, []);
 
   const fetchInventory = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}`);
+      const response = await axios.get("http://localhost:2426/getInventory");
       setInventory(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error('Error fetching inventory:', error);
@@ -43,26 +34,11 @@ function Inventory() {
     }
   };
 
-  const fetchStats = async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/stats`);
-      setStats(response.data);
-    } catch (error) {
-      console.error('Error fetching stats:', error);
-      toast.error('Failed to fetch stats');
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (editingItem) {
-        await axios.put(`${API_BASE_URL}/${editingItem.id}`, formData);
-        toast.success('Inventory updated successfully');
-      } else {
         await axios.post("http://localhost:2426/student/complaint", formData);
         toast.success('Inventory added successfully');
-      }
       setIsModalOpen(false);
       setEditingItem(null);
       setFormData({
@@ -71,28 +47,12 @@ function Inventory() {
         quantity: 0,
         gst : 0,
         price: 0,
-        category: '',
         status: 'In Stock'
       });
       fetchInventory();
-      fetchStats();
     } catch (error) {
       console.error('Operation failed:', error);
       toast.error('Operation failed');
-    }
-  };
-
-  const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this item?')) {
-      try {
-        await axios.delete(`${API_BASE_URL}/${id}`);
-        toast.success('Item deleted successfully');
-        fetchInventory();
-        fetchStats();
-      } catch (error) {
-        console.error('Failed to delete item:', error);
-        toast.error('Failed to delete item');
-      }
     }
   };
 
@@ -108,23 +68,22 @@ function Inventory() {
     }
   };
 
-  const StatsCard = ({ title, value, type }) => (
-    <div className={`stats-card ${type}`}>
-      <div className="stats-header">
-        <div className={`stats-icon ${type}`}>
-          {type === 'total' && <Package2 size={32} />}
-          {type === 'low' && <AlertTriangle size={32} />}
-          {type === 'out' && <PackageX size={32} />}
-        </div>
-        <div className="stats-value">{value}</div>
-      </div>
-      <p className="stats-title">{title}</p>
-    </div>
-  );
+  // const StatsCard = ({ title, value, type }) => (
+  //   <div className={`stats-card ${type}`}>
+  //     <div className="stats-header">
+  //       <div className={`stats-icon ${type}`}>
+  //         {type === 'total' && <Package2 size={32} />}
+  //         {type === 'low' && <AlertTriangle size={32} />}
+  //         {type === 'out' && <PackageX size={32} />}
+  //       </div>
+  //       <div className="stats-value">{value}</div>
+  //     </div>
+  //     <p className="stats-title">{title}</p>
+  //   </div>
+  // );
 
   const filteredInventory = inventory.filter(item =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.category.toLowerCase().includes(searchTerm.toLowerCase())
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -132,11 +91,11 @@ function Inventory() {
       <div className="content">
         <h1 className="title">Inventory Management</h1>
         
-        <div className="stats-grid">
+        {/* <div className="stats-grid">
           <StatsCard title="Total Items" value={stats.totalItems} type="total" />
           <StatsCard title="Low Stock Items" value={stats.lowStock} type="low" />
           <StatsCard title="Out of Stock" value={stats.outOfStock} type="out" />
-        </div>
+        </div> */}
         
         <div className="actions-bar">
           <div className="search-container">
@@ -162,7 +121,6 @@ function Inventory() {
                     quantity: 0,
                     gst : 0,
                     price: 0,
-                    category: '',
                     status: 'In Stock'
                 });
                 setIsModalOpen(true);
@@ -184,23 +142,20 @@ function Inventory() {
         
         <div className="table-container">
           <table className="table">
-            <thead>
+            <thead style={{ backgroundColor: '#f4f4f4', color: '#333' }}>
               <tr>
                 <th>Product Name</th>
                 <th>Business Name</th>
-                <th>Category</th>
                 <th>Quantity</th>
                 <th>GST</th>
                 <th>Price</th>
                 <th>Status</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredInventory.map((item) => (
                 <tr key={item.id}>
                   <td>{item.name}</td>
-                  <td>{item.category}</td>
                   <td>{item.quantity}</td>
                   <td>${item.price}</td>
                   <td>
@@ -256,7 +211,6 @@ function Inventory() {
                     quantity: 0,
                     gst : 0,
                     price: 0,
-                    category: '',
                     status: 'In Stock'
                   });
                 }}
@@ -302,16 +256,7 @@ function Inventory() {
                 </div>
               </div>
               
-              <div className="form-group">
-                <label className="form-label">Category</label>
-                <input
-                  type="text"
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="form-input"
-                  required
-                />
-              </div>
+
               
               <div className="form-group">
                 <label className="form-label">Status</label>
@@ -339,7 +284,6 @@ function Inventory() {
                       gst : 0,
                       quantity: 0,
                       price: 0,
-                      category: '',
                       status: 'In Stock'
                     });
                   }}

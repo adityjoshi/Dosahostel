@@ -24,7 +24,7 @@ export default function VerifyOtpPage() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:2426/auth/verify-otp", {
+      const response = await fetch("http://localhost:2426/verify-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

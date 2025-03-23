@@ -11,5 +11,7 @@ export const RoutesPathName = {
     SIGNUP_PAGE : '/signup',
     LOGIN_PAGE : '/login',
     LoginOTPVerification_Page :'/verifyotp',
-    Inventory_page:'/inventory'
+    Inventory_page:'/inventory',
+    Invoice_page: '/invoice',
+    User_Info: '/profile'
 }
