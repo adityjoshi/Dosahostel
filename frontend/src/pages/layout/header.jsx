@@ -14,6 +14,10 @@ export default function Header() {
     navigate("/login"); // Redirect to login page
   };
 
+  const handleProfile = () => {
+    navigate("/profile"); // Navigate to profile page (you can change the route if needed)
+  };
+
   return (
     <header className="header">
       <div className="header-content">
@@ -26,16 +30,17 @@ export default function Header() {
           </button>
 
           {showDropdown && (
-            <div className="dropdown" onClick={() => setShowDropdown(false)}>
+            <div className="dropdown">
               {user && (
                 <div className="dropdown-header">
                   <p className="user-name">{user.name}</p>
                   <p className="user-email">{user.email}</p>
                 </div>
               )}
-              <button onClick={handleLogout} className="logout-btn">
-                Logout
-              </button>
+              <div className="dropdown-options">
+                <button onClick={handleProfile} className="dropdown-btn">Profile</button>
+                <button onClick={handleLogout} className="dropdown-btn">Logout</button>
+              </div>
             </div>
           )}
         </div>

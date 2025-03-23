@@ -5,13 +5,18 @@ import Register from './pages/Register';
 import LoginOTPVerification from './pages/LoginOtpPage';
 import PrivateRoute from './context/PrivateRoute';
 import MainLayout from './pages/layout/MainLayout';
-
+import User_Info from './pages/UserInfo';
 import Inventory from './pages/Inventory';
+import Invoice from './pages/Invoice';
 import { RoutesPathName } from './constants';
 // import PrivateRoute from './context/PrivateRoute';
 
 
 const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <LandingPage />,  // Landing Page should be first
+  },
   {
     path: RoutesPathName.SIGNUP_PAGE,
     element: <Register />,
@@ -24,8 +29,10 @@ const router = createBrowserRouter([
     path: RoutesPathName.LoginOTPVerification_Page,
     element: <LoginOTPVerification />,
   },
-
-
+  {
+    path: RoutesPathName.User_Info,
+    element: <User_Info />,
+  }, 
   // {
   //   path: RoutesPathName.DASHBOARD_PAGE,
   //   element: (
@@ -49,6 +56,10 @@ const router = createBrowserRouter([
         path: RoutesPathName.Inventory_page,
         element: <Inventory />,
       },
+      {
+        path:RoutesPathName.Invoice_page,
+        element: <Invoice />
+      }    
     ],
   },
 

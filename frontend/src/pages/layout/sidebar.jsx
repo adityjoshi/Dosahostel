@@ -14,6 +14,11 @@ export default function Sidebar({ isSidebarOpen, toggleSidebar }) {
       label: 'Inventory', 
       path: RoutesPathName.Inventory_page 
     },
+    { 
+      icon: LayoutDashboard, 
+      label: 'Invoice', 
+      path: RoutesPathName.Invoice_page 
+    },
   ];
 
   return (
