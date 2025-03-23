@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Invoice from './pages/Invoice';
 // import Dashboard from './pages/Dashboard';
 import LoginOTPVerification from './pages/LoginOtpPage';
 import PrivateRoute from './context/PrivateRoute';
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
         path: RoutesPathName.Inventory_page,
         element: <Inventory />,
       },
+      {
+        path:RoutesPathName.Invoice_page,
+        element: <Invoice />
+      }
     ],
   },
 
