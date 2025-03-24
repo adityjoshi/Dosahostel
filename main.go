@@ -53,6 +53,7 @@ func main() {
 	if km == nil {
 		log.Fatal("KafkaManager is not initialized")
 	}
+	router.Use(setupCORS())
 	setupRouter(router)
 	// Start Kafka consumers
 	regions := []string{"north", "south"}
@@ -95,5 +96,6 @@ func setupSessions(router *gin.Engine) {
 }
 
 func setupRouter(router *gin.Engine) {
+	router.Use(setupCORS())
 	routes.StudentRoutes(router, km)
 }

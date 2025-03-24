@@ -7,7 +7,7 @@ export default function VerifyOtpPage() {
   const [otp, setOtp] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-  // const { login } = useAuth();
+  const { login } = useAuth();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +24,7 @@ export default function VerifyOtpPage() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:2426/auth/verify-otp", {
+      const response = await fetch("http://localhost:8001/verify-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export default function VerifyOtpPage() {
 
       if (response.ok) {
         login(jwtToken, { email }, region);
-        navigate("/dashboard");
+        navigate("/invoice");
       } else {
         const errorData = await response.json();
         alert(errorData.error || "OTP verification failed");

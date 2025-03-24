@@ -21,7 +21,7 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:2426/student/login", {
+      const response = await fetch("http://localhost:8001/student/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -44,10 +44,7 @@ export default function LoginPage() {
   return (
     <div style={styles.container}>
       {/* Left Side - Full Image */}
-      <div style={styles.leftContainer}>
-        <img src="/images/login-bg.jpg" alt="Login Background" style={styles.image} />
-      </div>
-
+     
       {/* Right Side - Login Form */}
       <div style={styles.rightContainer}>
         <div style={styles.card}>

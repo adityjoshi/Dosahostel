@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 
 const InventoryManagementLanding = () => {
@@ -403,12 +404,18 @@ const InventoryManagementLanding = () => {
           </div>
           
           <div style={styles.navMenu}>
-            <a href="#features" style={styles.navLink}>Features</a>
+            {/* <a href="#features" style={styles.navLink}>Features</a>
             <a href="#solutions" style={styles.navLink}>Solutions</a>
             <a href="#pricing" style={styles.navLink}>Pricing</a>
-            <a href="#customers" style={styles.navLink}>Customers</a>
-            <button style={styles.signUpButton}>SIGN UP NOW</button>
+            <a href="#customers" style={styles.navLink}>Customers</a> */}
+            <Link to="/signup">
+                <button style={styles.signUpButton}>SIGN UP</button>
+            </Link>
+            <Link to="/login">
+                <button style={styles.signUpButton}>SIGN IN</button>
+            </Link>
           </div>
+          
         </div>
       </nav>
 
