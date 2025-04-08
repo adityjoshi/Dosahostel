@@ -162,7 +162,6 @@ func (nc *NorthConsumer) consumeMessages(partitionConsumer sarama.PartitionConsu
 func processMessage(msg *sarama.ConsumerMessage) error {
 	log.Printf("Processing message: %s \n", string(msg.Value))
 
-	// Process the Inventory message
 	if msg.Topic == "inventory" {
 		var inventory models.Inventory
 		if err := json.Unmarshal(msg.Value, &inventory); err != nil {
